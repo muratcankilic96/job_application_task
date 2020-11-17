@@ -1,4 +1,6 @@
 <?php
+
+// Sends HTTPS request to server.
 function API($url){
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -12,6 +14,7 @@ function API($url){
 	return $arresponse;
 }
 
+// Converts the manufacturer table into an associative array for later easy access.
 function hash_manufacturer($manu_name) {
 	for($i = 0; $i < sizeof($manu_name); $i++) {
 		$x = $manu_name[$i];
@@ -20,6 +23,7 @@ function hash_manufacturer($manu_name) {
 	return $hashed_manu;
 }
 
+// Gets the manufacturer information from server.
 function get_manufacturer($manu_name) {
 	if(!isset($_SESSION[$manu_name])) {
 		$r = API("https://bad-api-assignment.reaktor.com/availability/" . $manu_name);
@@ -32,6 +36,7 @@ function get_manufacturer($manu_name) {
 	return $r;
 }
 
+// Compares ID number between the one with manufacturer API.
 function compare_id_to_manu($id, $manu_name) {
 	$id_u = strtoupper($id);
 	if(isset($manu_name[$id_u])) {
@@ -40,6 +45,7 @@ function compare_id_to_manu($id, $manu_name) {
 	}
 }
 
+// Lists the data received from API request.
 function listing($arr, $color1, $color2, $per) {
 	if( isset($_GET['pg']) ) {
 		$pg = $_GET['pg'];
@@ -69,6 +75,7 @@ function listing($arr, $color1, $color2, $per) {
 	}
 }
 
+// Add page buttons and number below.
 function buttons($n, $per) {
 	$p_tot = ceil($n / $per);
 	$dis_bw = "";
